@@ -1,5 +1,5 @@
 import { writeFile } from "node:fs"
-import cheerio from "cheerio"
+import cheerio from "npm:cheerio@latest"
 export function removeDataAttributes(html: string) {
   const $ = cheerio.load(html)
   return $.html()
@@ -67,7 +67,7 @@ export async function fetchHtml(url: string) {
 }
 export function removeAllAttributes(html: string) {
   const $ = cheerio.load(html)
-  $("*").each(function () {
+  $("*").each(function() {
     $(this).removeAttr("*")
   })
   return $.html()
