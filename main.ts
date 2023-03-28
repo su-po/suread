@@ -1,4 +1,4 @@
-import { writeFile } from "node:fs"
+import { writeFile } from "fs"
 import cheerio from "npm:cheerio@latest"
 export function removeDataAttributes(html: string) {
   const $ = cheerio.load(html)
