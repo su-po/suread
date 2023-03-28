@@ -1,6 +1,6 @@
 {
   "imports": {
-    "cheerio": "https://esm.sh/v113/*cheerio@0.22.0"
+    "cheerio/": "https://esm.sh/v113/*cheerio@0.22.0"
   },
   "scopes": {
     "https://esm.sh/v113/": {
