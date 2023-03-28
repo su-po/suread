@@ -5,7 +5,7 @@ export function removeDataAttributes(html: string) {
 }
 
 // const url = "https://paco.me/writing/hook-getter";
-const url = "https://monoskop.org/log/?p=23486"
+const url = "https://paco.me/writing/hook-getter"
 
 export function stripIdsAndClasses(html: string) {
   const $ = cheerio.load(html)
@@ -102,9 +102,10 @@ if (strippedHtml) {
   const removedInteractive = removeInteractive(removedAttributes)
   const filteredHTTP = removeNonHTTPLinks(removedInteractive)
   const packedHTML = packHTML(filteredHTTP)
-
+  console.log(packedHTML)
   const encoder = new TextEncoder()
   const htmlBuffer = encoder.encode(packedHTML)
+  
   Deno.writeFile("test.html", htmlBuffer)
 }
 
