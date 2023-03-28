@@ -1,5 +1,5 @@
-import { writeFile } from "fs"
-import cheerio from "npm:cheerio@latest"
+// import { writeFile } from "node:fs"
+import * as cheerio from "https://esm.sh/cheerio@1.0.0-rc.12";
 export function removeDataAttributes(html: string) {
   const $ = cheerio.load(html)
   return $.html()
@@ -106,9 +106,9 @@ if (strippedHtml) {
 
   const encoder = new TextEncoder()
   const htmlBuffer = encoder.encode(packedHTML)
-  writeFile("test.html", htmlBuffer, err => {
-    console.log(err)
-  })
+  console.log(htmlBuffer)
+    const file = await Deno.create("./test.html");
+  await Deno.writeFile("./test.html", htmlBuffer)
 }
 
 
