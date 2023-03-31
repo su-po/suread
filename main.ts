@@ -1,11 +1,12 @@
-import * as cheerio from "https://esm.sh/cheerio@1.0.0-rc.12"
+import { writeFile } from "node:node:fs"
+import cheerio from "npm:cheerio@latest"
 export function removeDataAttributes(html: string) {
   const $ = cheerio.load(html)
   return $.html()
 }
 
 // const url = "https://paco.me/writing/hook-getter";
-const url = "https://paco.me/writing/hook-getter"
+const url = "https://monoskop.org/log/?p=23486"
 
 export function stripIdsAndClasses(html: string) {
   const $ = cheerio.load(html)
@@ -17,7 +18,7 @@ export function stripIdsAndClasses(html: string) {
   $("head").remove()
   return $.html()
 }
-
+∏
 export function removeInteractive(html: string) {
   const $ = cheerio.load(html)
   $("button").remove()
@@ -96,17 +97,8 @@ export async function getCleanHtml(url: string) {
   }
 }
 
-export const strippedHtml = await getCleanHtml(url)
-if (strippedHtml) {
-  const removedAttributes = removeDataAttributes(strippedHtml)
-  const removedInteractive = removeInteractive(removedAttributes)
-  const filteredHTTP = removeNonHTTPLinks(removedInteractive)
-  const packedHTML = packHTML(filteredHTTP)
-  console.log(packedHTML)
-  const encoder = new TextEncoder()
-  const htmlBuffer = encoder.encode(packedHTML)
-  
-  Deno.writeFile("test.html", htmlBuffer)
+// export const strippedHtml = await getCleanHtml(url)
+
 }
 
 
@@ -122,4 +114,34 @@ export function packHTML(html: string) {
   }).remove()
 
   return $.html()
+}
+
+if (strippedHtml) {
+  const removedAttributes = removeDataAttributes(strippedHtml)
+  const removedInteractive = removeInteractive(removedAttributes)
+  const filteredHTTP = removeNonHTTPLinks(removedInteractive)
+  const packedHTML = packHTML(filteredHTTP)
+
+  const encoder = new TextEncoder()
+  const htmlBuffer = encoder.encode(packedHTML)
+  writeFile("test.html", htmlBuffer, err => {
+    console.log(err)
+  })
+  
+export function returnHTML(url: string) {
+  const strippedHtml = await getCleanHtml(url)
+  if (strippedHtml) {
+  const removedAttributes = removeDataAttributes(strippedHtml)
+  const removedInteractive = removeInteractive(removedAttributes)
+  const filteredHTTP = removeNonHTTPLinks(removedInteractive)
+  const packedHTML = packHTML(filteredHTTP)
+
+  const encoder = new TextEncoder()
+  const htmlBuffer = encoder.encode(packedHTML)
+  // writeFile("test.html", htmlBuffer, err => {
+  //   console.log(err)
+  // })
+  
+  return htmlBuffer
+  
 }
