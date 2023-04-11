@@ -96,19 +96,6 @@ export async function getCleanHtml(url: string) {
   }
 }
 
-export const strippedHtml = await getCleanHtml(url)
-if (strippedHtml) {
-  const removedAttributes = removeDataAttributes(strippedHtml)
-  const removedInteractive = removeInteractive(removedAttributes)
-  const filteredHTTP = removeNonHTTPLinks(removedInteractive)
-  const packedHTML = packHTML(filteredHTTP)
-  console.log(packedHTML)
-  const encoder = new TextEncoder()
-  const htmlBuffer = encoder.encode(packedHTML)
-  
-  Deno.writeFile("test.html", htmlBuffer)
-}
-
 
 export function packHTML(html: string) {
   const $ = cheerio.load(html, {
@@ -122,4 +109,18 @@ export function packHTML(html: string) {
   }).remove()
 
   return $.html()
+}
+
+
+export const strippedHtml = await getCleanHtml(url)
+if (strippedHtml) {
+  const removedAttributes = removeDataAttributes(strippedHtml)
+  const removedInteractive = removeInteractive(removedAttributes)
+  const filteredHTTP = removeNonHTTPLinks(removedInteractive)
+  const packedHTML = packHTML(filteredHTTP)
+  console.log(packedHTML)
+  const encoder = new TextEncoder()
+  const htmlBuffer = encoder.encode(packedHTML, "utf-8")
+  
+  Deno.writeFile("test.html", htmlBuffer)
 }
